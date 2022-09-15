@@ -1,9 +1,15 @@
 import { Model } from 'mongoose';
+import { IModel } from '../interfaces/IModel';
 
-export default abstract class MongoModel<T> {
-  constructor(protected _model: Model<T>) {}
-
-  public async create(body: T) {
-    return this._model.create({ ...body });
+abstract class MongoModel<T> implements IModel<T> {
+  protected _model:Model<T>;
+  constructor(model:Model<T>) {
+    this._model = model;
   }
-}  
+
+  create(obj: T):Promise<T> {
+    return this._model.create({ ...obj });
+  }
+} 
+
+export default MongoModel;

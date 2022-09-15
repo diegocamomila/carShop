@@ -3,12 +3,12 @@ import { ICar } from '../interfaces/ICar';
 import Service from '../services/cars.servise';
 
 export default class CarController {
-  private service: typeof Service;
-  constructor(service: typeof Service) {
-    this.service = service;
+  private _service: Service;
+  constructor(service: Service) {
+    this._service = service;
   }
-  static async create(req: Request & { body: ICar }, res: Response<ICar>) {
-    const response = await this.service.create(req.body);
+  async create(req: Request & { body: ICar }, res: Response<ICar>) {
+    const response = await this._service.create(req.body);
 
     return res.status(201).json(response);
   }

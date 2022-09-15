@@ -1,13 +1,15 @@
 import { ICar } from '../interfaces/ICar';
-import Model from '../model';
+import { IModel } from '../interfaces/IModel';
+import IService from '../interfaces/IService';
 
-export default class CarService {
-  private model: Model;
-  constructor(model: Model) {
-    this.model = model;
+class CarService implements IService<ICar> {
+  private _carModel: IModel<ICar>;
+  constructor(model: IModel<ICar>) {
+    this._carModel = model;
   }
 
-  static async create(body: ICar) {
-    return this.model.create(body);
+  async create(body: ICar) {
+    return this._carModel.create(body);
   }
 }
+export default CarService;
