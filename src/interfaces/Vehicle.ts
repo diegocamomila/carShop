@@ -8,6 +8,6 @@ export const VehicleZodSchema = z.object({
   buyValue: z.number().int(),
 });
 
-export type IVehicle = z.infer<typeof VehicleZodSchema>;
+export type VehicleDTO = z.infer<typeof VehicleZodSchema>;
 
 // ja aproveitado a ideia de penas verificaçoes que faria com o joi no zod aula 30/2 calaça

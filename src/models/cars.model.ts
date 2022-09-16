@@ -1,8 +1,8 @@
 import { model as mongooseCreateModel, Schema } from 'mongoose';
-import { ICar } from '../interfaces/ICar';
+import { CarDTO } from '../interfaces/Car';
 import MongoModel from './mongoModel';
 
-const carMongooseSchema = new Schema<ICar>({
+const carMongooseSchema = new Schema<CarDTO>({
   model: String,
   year: Number,
   color: String,
@@ -14,10 +14,10 @@ const carMongooseSchema = new Schema<ICar>({
   versionKey: false,
 });
 
-class CarModel extends MongoModel<ICar> {
+class CarsModel extends MongoModel<CarDTO> {
   constructor(model = mongooseCreateModel('Car', carMongooseSchema)) {
     super(model);
   }
 }
 
-export default CarModel;
+export default CarsModel;
