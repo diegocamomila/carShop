@@ -25,4 +25,17 @@ export default class CarsController {
     const response = await this._service.read();
     return res.status(200).json(response);
   }
+
+  public async update(req: Request, res: Response<ICar>) {
+    const { id } = req.params;
+    const response = await this._service.update(id, req.body);
+
+    return res.status(200).json(response);
+  }
+
+  public async delete(req: Request, res: Response<ICar>) {
+    await this._service.delete(req.params.id);
+
+    return res.status(204).end();
+  }
 }
