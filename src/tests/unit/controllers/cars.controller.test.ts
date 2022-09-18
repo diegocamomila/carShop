@@ -4,7 +4,7 @@ const { expect } = chai;
 import CarsModel from '../../../models/cars.model';
 import CarsService from '../../../services/cars.service';
 import CarsController from '../../../controllers/cars.controller';
-import { resCreate } from '../../mocks/cars.mock';
+import { reqCreate, resCreate } from '../../mocks/cars.mock';
 import { Request, Response } from 'express';
 
 const model = new CarsModel();
@@ -28,8 +28,9 @@ describe('Testes da camada controller cars.controller', () => {
     })
 
     it('Testa a funçao create', async () => {
+      req.body = reqCreate;
       const response = await controller.create(req, res);
-
+      
       expect((response.status as sinon.SinonStub).calledWith(201)).to.be.true;
       expect((response.json as sinon.SinonStub).calledWith(resCreate)).to.be.true;
     });
