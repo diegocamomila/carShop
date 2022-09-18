@@ -8,7 +8,7 @@ const CarsController = makeCarsController();
 const routes = Router();
 
 routes.get('/:id', validateId, (req, res) => CarsController.readOne(req, res));
-routes.get('/', validateId, (req, res) => CarsController.read(req, res));
+routes.get('/', (req, res) => CarsController.read(req, res));
 routes.post('/', validateCar, (req, res) => CarsController.create(req, res));
 
 export default routes;

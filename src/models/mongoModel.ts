@@ -8,10 +8,6 @@ abstract class MongoModel<T> implements IModel<T> {
     this._model = model;
   }
 
-  public async read(): Promise<T[]> {
-    return this._model.find();
-  }
-
   public async update(id: string, obj: any): Promise<T | null> {
     return this._model.findOneAndUpdate(
       { id },
