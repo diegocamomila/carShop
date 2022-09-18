@@ -1,21 +1,17 @@
-// template para criação dos testes de cobertura da camada de model
-
 import * as sinon from 'sinon';
 import chai from 'chai';
 const { expect } = chai;
-
 import CarsModel from '../../../models/cars.model';
-import { Model } from 'mongoose';
+import CarsService from '../../../services/cars.service';
 import { reqCreate, resCreate } from '../../mocks/cars.mock';
 
 const model = new CarsModel();
+const service = new CarsService(model);
 
-describe('Testes da camada model cars.model', () => {
+describe('Testes da camada service cars.service ', () => {
   describe('Em caso de sucesso', () => {
     before(async () => {
-      sinon
-        .stub(Model, 'create')
-        .resolves(resCreate);
+      sinon.stub(model, 'create') .resolves(resCreate);
     });
 
     after(()=>{
@@ -23,9 +19,9 @@ describe('Testes da camada model cars.model', () => {
     })
 
     it('Testa a funçao create', async () => {
-      const response = await model.create(reqCreate);
+      const response = await service.create(reqCreate);
 
       expect(response).to.eq(resCreate);
-    });
+    });    
   });
 });
