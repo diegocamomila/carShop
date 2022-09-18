@@ -31,13 +31,13 @@ abstract class MongoModel<T> implements IModel<T> {
   public async readOne(_id: string): Promise<T | null> {
     if (!isValidObjectId(_id)) throw new Error(ErrorTypes.EntityNotFound);
     const results = this._model.findOne({ _id });
-    
-    // if (!isValidObjectId(id)) throw Error(ErrorTypes.EntityNotFound);
-    // // return this._model.findOne({ id });
-    // const results = await this._model.findOne(id); 
     if (!results || null) throw new Error(ErrorTypes.EntityNotFound);
     return results;
   }  
+
+  public async read(): Promise<T[]> {
+    return this._model.find();
+  }
 } 
 
 export default MongoModel;
