@@ -16,8 +16,8 @@ class CarsService implements IService<ICar> {
     return newCar;
   }
 
-  public async readOne(id: string): Promise<ICar> {
-    const results = await this._carModel.readOne(id);
+  public async readOne(_id: string): Promise<ICar> {
+    const results = await this._carModel.readOne(_id);
     // console.log('readOne service', results);
     if (results === null) throw new Error(ErrorTypes.EntityNotFound);
     return results;
@@ -28,5 +28,22 @@ class CarsService implements IService<ICar> {
     // console.log('read service', results);
     return results;
   }
+
+  public async update(_id: string, obj: Partial<ICar>): Promise<ICar> {
+    const results = await this._carModel.update(_id, obj);
+
+    if (!results) throw new Error(ErrorTypes.EntityNotFound);
+
+    return results;
+  }
+
+  public async delete(_id: string): Promise<ICar> {
+    const results = await this._carModel.delete(_id);
+
+    if (!results) throw new Error(ErrorTypes.EntityNotFound);
+
+    return results;
+  }
 }
+
 export default CarsService;

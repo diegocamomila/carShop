@@ -17,20 +17,20 @@ export default class CarsController {
   }
 
   public async readOne(req: Request, res: Response<ICar>) {
-    const response = await this._service.readOne(req.params.id);
-    return res.status(200).json(response);
+    const results = await this._service.readOne(req.params.id);
+    return res.status(200).json(results);
   }
 
   public async read(req: Request, res: Response<ICar[]>) {
-    const response = await this._service.read();
-    return res.status(200).json(response);
+    const results = await this._service.read();
+    return res.status(200).json(results);
   }
 
   public async update(req: Request, res: Response<ICar>) {
     const { id } = req.params;
-    const response = await this._service.update(id, req.body);
+    const results = await this._service.update(id, req.body);
 
-    return res.status(200).json(response);
+    return res.status(200).json(results);
   }
 
   public async delete(req: Request, res: Response<ICar>) {
