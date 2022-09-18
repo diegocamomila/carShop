@@ -4,7 +4,7 @@ const { expect } = chai;
 import CarsModel from '../../../models/cars.model';
 import CarsService from '../../../services/cars.service';
 import CarsController from '../../../controllers/cars.controller';
-import { reqCreate, resCreate } from '../../mocks/cars.mock';
+import { reqCreate, resCreate, resRead } from '../../mocks/cars.mock';
 import { Request, Response } from 'express';
 
 const model = new CarsModel();
@@ -18,6 +18,7 @@ describe('Testes da camada controller cars.controller', () => {
   describe('Em caso de sucesso', () => {
     before(async () => {
       sinon.stub(service, 'create').resolves(resCreate);
+      sinon.stub(service, 'read').resolves(resRead);
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns(res);
@@ -34,5 +35,13 @@ describe('Testes da camada controller cars.controller', () => {
       expect((response.status as sinon.SinonStub).calledWith(201)).to.be.true;
       expect((response.json as sinon.SinonStub).calledWith(resCreate)).to.be.true;
     });
+
+    it('Testa a funçao read', async () => {
+      const response = await controller.read(req, res);
+
+      expect((response.status as sinon.SinonStub).calledWith(200)).to.be.true;
+      expect((response.json as sinon.SinonStub).calledWith(resRead)).to.be.true;
+    });
+
   });
 });

@@ -6,16 +6,15 @@ const { expect } = chai;
 
 import CarsModel from '../../../models/cars.model';
 import { Model } from 'mongoose';
-import { reqCreate, resCreate } from '../../mocks/cars.mock';
+import { reqCreate, resCreate  } from '../../mocks/cars.mock';
 
 const model = new CarsModel();
 
 describe('Testes da camada model cars.model', () => {
   describe('Em caso de sucesso', () => {
     before(async () => {
-      sinon
-        .stub(Model, 'create')
-        .resolves(resCreate);
+      sinon.stub(Model, 'create') .resolves(resCreate);
+      //sinon.stub(Model, 'read') .resolves(resRead);
     });
 
     after(()=>{
@@ -27,5 +26,11 @@ describe('Testes da camada model cars.model', () => {
 
       expect(response).to.eq(resCreate);
     });
+
+    // it('Testa a funçao read', async () => {
+    //   const response = await model.read();
+
+    //   expect(response).to.eq(resRead);
+    // });
   });
 });
