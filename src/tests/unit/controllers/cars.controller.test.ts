@@ -4,7 +4,7 @@ const { expect } = chai;
 import CarsModel from '../../../models/cars.model';
 import CarsService from '../../../services/cars.service';
 import CarsController from '../../../controllers/cars.controller';
-import { reqCreate, resCreate, resRead } from '../../mocks/cars.mock';
+import { reqCreate, resCreate, resReadOneUpdateDelete, reqReadOneUpdateDelete } from '../../mocks/cars.mock';
 import { Request, Response } from 'express';
 
 const model = new CarsModel();
@@ -18,11 +18,15 @@ describe('Testes da camada controller cars.controller', () => {
   describe('Em caso de sucesso', () => {
     before(async () => {
       sinon.stub(service, 'create').resolves(resCreate);
-      sinon.stub(service, 'read').resolves(resRead);
+      sinon.stub(service, 'read').resolves([resReadOneUpdateDelete]);
+      sinon.stub(service, 'readOne').resolves(resReadOneUpdateDelete);
+      sinon.stub(service, 'update').resolves(resReadOneUpdateDelete);
+      // sinon.stub(service, 'delete').resolves(resReadOneUpdateDelete);
+
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns(res);
-    });
+      });
 
     after(()=>{
       sinon.restore();
@@ -40,8 +44,31 @@ describe('Testes da camada controller cars.controller', () => {
       const response = await controller.read(req, res);
 
       expect((response.status as sinon.SinonStub).calledWith(200)).to.be.true;
-      expect((response.json as sinon.SinonStub).calledWith(resRead)).to.be.true;
+      expect((response.json as sinon.SinonStub).calledWith([resReadOneUpdateDelete])).to.be.true;
     });
 
-  });
+    it('Testa a funçao readOne', async () => {
+      req.params = {id: reqReadOneUpdateDelete}
+      const response = await controller.readOne(req, res);
+
+      expect((response.status as sinon.SinonStub).calledWith(200)).to.be.true;
+      expect((response.json as sinon.SinonStub).calledWith(resReadOneUpdateDelete)).to.be.true;
+    });
+
+    it('Testa a funçao update', async () => {
+      req.params = {id: reqReadOneUpdateDelete}
+      req.body = reqCreate;
+      const response = await controller.update(req, res);
+
+      expect((response.status as sinon.SinonStub).calledWith(200)).to.be.true;
+      expect((response.json as sinon.SinonStub).calledWith(resReadOneUpdateDelete)).to.be.true;
+    });
+
+    // it('Testa a funçao delete', async () => {
+    //   req.params.id = reqReadOneUpdateDelete;
+    //   const response = await controller.delete(req, res);
+
+    //   expect((response.status as sinon.SinonStub).calledWith(204)).to.be.true;
+    //   expect((response.json as sinon.SinonStub).calledWith(resReadOneUpdateDelete)).to.be.true;
+    });
 });
