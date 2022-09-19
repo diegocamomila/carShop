@@ -6,7 +6,7 @@ const { expect } = chai;
 
 import CarsModel from '../../../models/cars.model';
 import { Model } from 'mongoose';
-import { reqCreate, resCreate  } from '../../mocks/cars.mock';
+import { reqCreate, reqReadOneUpdateDelete, resCreate, resReadOneUpdateDelete  } from '../../mocks/cars.mock';
 
 const model = new CarsModel();
 
@@ -14,7 +14,9 @@ describe('Testes da camada model cars.model', () => {
   describe('Em caso de sucesso', () => {
     before(async () => {
       sinon.stub(Model, 'create') .resolves(resCreate);
-      //sinon.stub(Model, 'read') .resolves(resRead);
+      // sinon.stub(Model, 'read') .resolves(resReadOneUpdateDelete);
+      sinon.stub(Model, 'findOne').resolves(resReadOneUpdateDelete);
+      sinon.stub(Model, 'find').resolves([resReadOneUpdateDelete]);
     });
 
     after(()=>{
@@ -32,5 +34,16 @@ describe('Testes da camada model cars.model', () => {
 
     //   expect(response).to.eq(resRead);
     // });
+    it('successfully found all', async () => {
+      const cars = await model.read();
+      expect(cars).to.be.deep.equal([resReadOneUpdateDelete]);
+    });
+
+    it('successfully found', async () => {
+      const car = await model.readOne(reqReadOneUpdateDelete);
+      expect(car).to.be.deep.equal(resReadOneUpdateDelete);
+    });
+
+
   });
 });
