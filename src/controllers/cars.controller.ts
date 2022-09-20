@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { ErrorTypes } from '../errors/catalog';
 import { ICar } from '../interfaces/ICar';
 import IService from '../interfaces/IService';
 
@@ -19,6 +20,7 @@ export default class CarsController {
   public async readOne(req: Request, res: Response<ICar>) {
     // console.log('controller readone', req.params);
     const results = await this._service.readOne(req.params.id);
+    if (!results) throw new Error(ErrorTypes.EntityNotFound);
     // console.log('controller readone', results);
     return res.status(200).json(results);
   }

@@ -1,5 +1,4 @@
-import { isValidObjectId, Model } from 'mongoose';
-import { ErrorTypes } from '../errors/catalog';
+import { Model } from 'mongoose';
 import { IModel } from '../interfaces/IModel';
 
 abstract class MongoModel<T> implements IModel<T> {
@@ -13,10 +12,7 @@ abstract class MongoModel<T> implements IModel<T> {
   }
 
   public async readOne(_id: string): Promise<T | null> {
-    if (!isValidObjectId(_id)) throw new Error(ErrorTypes.EntityNotFound);
-    const results = this._model.findOne({ _id });
-    if (!results || null) throw new Error(ErrorTypes.EntityNotFound);
-    return results;
+    return this._model.findOne({ _id });
   }  
 
   public async read(): Promise<T[]> {
