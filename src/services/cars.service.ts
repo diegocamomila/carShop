@@ -18,14 +18,14 @@ class CarsService implements IService<ICar> {
 
   public async readOne(_id: string): Promise<ICar> {
     const results = await this._carModel.readOne(_id);
-    console.log('readOne service', results);
+    // console.log('readOne service', results);
     if (!results) throw new Error(ErrorTypes.EntityNotFound);
     return results;
   }
 
   public async read(): Promise<ICar[]> {
     const results = await this._carModel.read();
-    console.log('read service', results);
+    //  console.log('read service', results);
     return results;
   }
 

@@ -1,23 +1,23 @@
 import { Request, Response } from 'express';
 import { ErrorTypes } from '../errors/catalog';
-import { ICar } from '../interfaces/ICar';
+import { IMotorcycle } from '../interfaces/IMotorcycle';
 import IService from '../interfaces/IService';
 
 export default class CarsController {
-  private _service: IService<ICar>;
+  private _service: IService<IMotorcycle>;
 
-  constructor(service: IService<ICar>) {
+  constructor(service: IService<IMotorcycle>) {
     this._service = service;
   }
 
-  public async create(req: Request, res: Response<ICar>) {
-    const { model, year, color, buyValue, seatsQty, doorsQty }: ICar = req.body;
-    const car = { model, year, color, buyValue, seatsQty, doorsQty };
-    const results = await this._service.create(car);
+  public async create(req: Request, res: Response<IMotorcycle>) {
+    const { model, year, color, buyValue, category, engineCapacity }: IMotorcycle = req.body;
+    const motorcycle = { model, year, color, buyValue, category, engineCapacity };
+    const results = await this._service.create(motorcycle);
     return res.status(201).json(results);
   }
 
-  public async readOne(req: Request, res: Response<ICar>) {
+  public async readOne(req: Request, res: Response<IMotorcycle>) {
     // console.log('controller readone', req.params);
     const results = await this._service.readOne(req.params.id);
     if (!results) throw new Error(ErrorTypes.EntityNotFound);
@@ -25,13 +25,13 @@ export default class CarsController {
     return res.status(200).json(results);
   }
 
-  public async read(req: Request, res: Response<ICar[]>) {
+  public async read(req: Request, res: Response<IMotorcycle[]>) {
     const results = await this._service.read();
     // console.log('controller read', results);
     return res.status(200).json(results);
   }
 
-  public async update(req: Request, res: Response<ICar>) {
+  public async update(req: Request, res: Response<IMotorcycle>) {
     // console.log('console update', req.params, req.body);
     const { id } = req.params;
     const results = await this._service.update(id, req.body);
@@ -39,7 +39,7 @@ export default class CarsController {
     return res.status(200).json(results);
   }
 
-  public async delete(req: Request, res: Response<ICar>) {
+  public async delete(req: Request, res: Response<IMotorcycle>) {
     // console.log('console delete', req.params);
     // const results = 
     await this._service.delete(req.params.id);
